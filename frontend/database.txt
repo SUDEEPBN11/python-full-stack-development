@@ -1,0 +1,367 @@
+udeep.b.n.@SUDEEPBNs-MacBook-Air ~ % psql postgres
+Password for user sudeep.b.n.: 
+psql: error: connection to server on socket "/tmp/.s.PGSQL.5432" failed: FATAL:  password authentication failed for user "sudeep.b.n."
+sudeep.b.n.@SUDEEPBNs-MacBook-Air ~ % psql -U postgres -d postgres
+Password for user postgres: 
+psql (18.7 (Homebrew))
+Type "help" for help.
+
+postgres=# create database college;
+CREATE DATABASE
+postgres=# create table student (
+postgres(# id SERIAL PRIMARY KEY ,
+postgres(# name VARCHAR(100) ,
+postgres(# );
+ERROR:  syntax error at or near ")"
+LINE 4: );
+        ^
+postgres=# \c college
+You are now connected to database "college" as user "postgres".
+college=# create table student (
+college(#  
+id SERIAL PRIMARY KEY ,
+college(# name VARCHAR(100) ,
+college(# age INT ,
+college(# course VARCHAR(100) ,
+college(# marks INT );
+CREATE TABLE
+college=# \dt
+           List of tables
+ Schema |  Name   | Type  |  Owner   
+--------+---------+-------+----------
+ public | student | table | postgres
+(1 row)
+
+college=# insert into student (name ,age ,course,marks)
+college-# values
+college-# );
+ERROR:  syntax error at or near ")"
+LINE 3: );
+        ^
+college=# insert into student (id, name ,age ,course, marks)
+college-# values
+college-# (11,aaa,12,DSA,98)
+college-# (22,bbb,13,DBMS,97)
+college-# (33,ccc,14,ADA,96)
+college-# ;
+ERROR:  syntax error at or near "("
+LINE 4: (22,bbb,13,DBMS,97)
+        ^
+college=# insert into student (id, name ,age ,course, marks)
+college-# values,
+college-# (11,aaa,12,DSA,98),                               
+college-# (22,bbb,13,TOC,99),
+college-# (33,ccc,14,);
+ERROR:  syntax error at or near ","
+LINE 2: values,
+              ^
+college=# insert into student (id, name ,age ,course, marks),
+college-# insert into student (id, name ,age ,course, marks)
+college-# values
+college-# (11,'aaa',12,'DSA',98),
+college-# (22,'bbb',13,'DBMS',99),
+college-# (33,'ccc',14,'TOC',99),
+college-# (44,'ddd',15,'ADA',98),
+college-# (55,'eee',16,'RM',99);
+ERROR:  syntax error at or near ","
+LINE 1: insert into student (id, name ,age ,course, marks),
+                                                          ^
+college=# insert into student (id, name ,age ,course, marks)
+college-# values
+college-# (11,'aaa',12,'DSA',98),
+college-# (22,'bbb',13,'DBMS',99),
+college-# (33,'ccc',14,'TOC',99),
+college-# (44,'ddd',15,'ADA',98),
+college-# (55,'eee',16,'RM',99);
+INSERT 0 5
+college=# select * from student;
+ id | name | age | course | marks 
+----+------+-----+--------+-------
+ 11 | aaa  |  12 | DSA    |    98
+ 22 | bbb  |  13 | DBMS   |    99
+ 33 | ccc  |  14 | TOC    |    99
+ 44 | ddd  |  15 | ADA    |    98
+ 55 | eee  |  16 | RM     |    99
+(5 rows)
+
+college=# where >=98
+college-# where marks >= 98;
+ERROR:  syntax error at or near "where"
+LINE 1: where >=98
+        ^
+college=#           
+where marks >= 98;
+ERROR:  syntax error at or near "where"
+LINE 1: where marks >= 98;
+        ^
+college=# where marks >=98;
+ERROR:  syntax error at or near "where"
+LINE 1: where marks >=98;
+        ^
+college=# where marks => 98;
+ERROR:  syntax error at or near "where"
+LINE 1: where marks => 98;
+        ^
+college=# where marks = 98;
+ERROR:  syntax error at or near "where"
+LINE 1: where marks = 98;
+        ^
+college=# "where marks >=98"
+college-# select * from student
+college-# ;
+ERROR:  syntax error at or near ""where marks >=98""
+LINE 1: "where marks >=98"
+        ^
+college=# ;;
+college=# ;
+college=# where marks > 98
+college-# ;
+ERROR:  syntax error at or near "where"
+LINE 1: where marks > 98
+        ^
+college=# select * from student
+college-# where marks >= 98;
+ id | name | age | course | marks 
+----+------+-----+--------+-------
+ 11 | aaa  |  12 | DSA    |    98
+ 22 | bbb  |  13 | DBMS   |    99
+ 33 | ccc  |  14 | TOC    |    99
+ 44 | ddd  |  15 | ADA    |    98
+ 55 | eee  |  16 | RM     |    99
+(5 rows)
+
+college=# select * from student
+college-# where marks > 98;
+ id | name | age | course | marks 
+----+------+-----+--------+-------
+ 22 | bbb  |  13 | DBMS   |    99
+ 33 | ccc  |  14 | TOC    |    99
+ 55 | eee  |  16 | RM     |    99
+(3 rows)
+
+college=# delete from student where id =22;
+DELETE 1
+college=# select * from student;
+ id | name | age | course | marks 
+----+------+-----+--------+-------
+ 11 | aaa  |  12 | DSA    |    98
+ 33 | ccc  |  14 | TOC    |    99
+ 44 | ddd  |  15 | ADA    |    98
+ 55 | eee  |  16 | RM     |    99
+(4 rows)
+
+college=# update from student where id=11 into marks=100;
+ERROR:  syntax error at or near "from"
+LINE 1: update from student where id=11 into marks=100;
+               ^
+college=# select * from student;
+ id | name | age | course | marks 
+----+------+-----+--------+-------
+ 11 | aaa  |  12 | DSA    |    98
+ 33 | ccc  |  14 | TOC    |    99
+ 44 | ddd  |  15 | ADA    |    98
+ 55 | eee  |  16 | RM     |    99
+(4 rows)
+
+college=# create table student_card(
+college(# card_id serial primary key ,
+college(# card_number varchar(60) ,
+college(# id int unique references student(id));
+CREATE TABLE
+college=# \dt
+              List of tables
+ Schema |     Name     | Type  |  Owner   
+--------+--------------+-------+----------
+ public | student      | table | postgres
+ public | student_card | table | postgres
+(2 rows)
+
+college=# select * from student_card;
+ card_id | card_number | id 
+---------+-------------+----
+(0 rows)
+
+college=# insert into student_card(card_number,id)
+college-# values
+college-# ('1gd24cs151',11),
+college-# ('1gd24cs152',22),
+college-# ('1gd24cs153',33),
+college-# ('1gd24cs154',44),
+college-# ('1gd24cs155',55);
+ERROR:  insert or update on table "student_card" violates foreign key constraint "student_card_id_fkey"
+DETAIL:  Key (id)=(22) is not present in table "student".
+college=# insert into student_card(card_number,id)
+college-# values
+college-# ('1gd24cs151',11),
+college-# ('1gd24cs152',22),
+college-# ;
+ERROR:  syntax error at or near ";"
+LINE 5: ;
+        ^
+college=# insert into student_card(card_number,id)
+college-# values
+college-# ('1gd24cs151',11),
+college-# ('1gd24cs153',33),
+college-# ('1gd24cs154',44),
+college-# ('1gd24cs155',55);
+INSERT 0 4
+college=# select * from studnt-card;
+ERROR:  syntax error at or near "-"
+LINE 1: select * from studnt-card;
+                            ^
+college=# select * from studnt_card;
+ERROR:  relation "studnt_card" does not exist
+LINE 1: select * from studnt_card;
+                      ^
+college=# select * from student_card;
+ card_id | card_number | id 
+---------+-------------+----
+       6 | 1gd24cs151  | 11
+       7 | 1gd24cs153  | 33
+       8 | 1gd24cs154  | 44
+       9 | 1gd24cs155  | 55
+(4 rows)
+
+college=# cerate table department(
+college(# department_id serial primary key ,
+college(# department_name varchar(100);
+college(# );
+ERROR:  syntax error at or near "cerate"
+LINE 1: cerate table department(
+        ^
+college=# create table department(
+college(# department_id serial primary key ,
+college(# department_name varchar(100));
+CREATE TABLE
+college=# insert into department(department_name)
+college-# values
+college-# ('CSE'),
+college-# ('AI'),
+college-# ('DS'),
+college-# ('EC'),
+college-# ('EEE'),
+college-# ('ME'),
+college-# ('CE'),
+college-# ('AE'),
+college-# ('ISE');
+INSERT 0 9
+college=# create table employee(
+college(# employee_id serial primary key ,
+college(# employee_name varchar(200),
+college(# salary int,
+college(# department_id int references department(department_id));
+CREATE TABLE
+college=# insert into employee(employee_name , salary , departmnet_id)
+college-# values
+college-# ('Sudeep.B.N' , 100000 , 1) ,
+college-# ('Vinay.M , 1000000 , 2) ,
+college'# ('Sachin , 10000000, 3 ),
+college-# ('Sidharth. S',100000, 4);
+ERROR:  syntax error at or near "Sachin"
+LINE 5: ('Sachin , 10000000, 3 ),
+          ^
+college=# insert into employee(employee_name , salary , departmnet_id)
+college-# values
+college-# ('Sudeep.B.N' , 100000 , 1) ,
+college-# ('Vinay.M , 1000000 , 2) ,
+college'# ('Sachin' , 10000000, 3 ),
+college'# ('Sidharth. S',100000, 4);
+college'# );
+college'# ('sujan S', 100000, 5));
+college'# 
+college'# ^C
+college=# exit
+sudeep.b.n.@SUDEEPBNs-MacBook-Air ~ % psql postgres
+Password for user sudeep.b.n.: 
+psql: error: connection to server on socket "/tmp/.s.PGSQL.5432" failed: FATAL:  password authentication failed for user "sudeep.b.n."
+sudeep.b.n.@SUDEEPBNs-MacBook-Air ~ % psql -U postgres -d postgres
+Password for user postgres: 
+psql: error: connection to server on socket "/tmp/.s.PGSQL.5432" failed: FATAL:  password authentication failed for user "postgres"
+sudeep.b.n.@SUDEEPBNs-MacBook-Air ~ % psql -U postgres -d postgres
+Password for user postgres: 
+psql (18.7 (Homebrew))
+Type "help" for help.
+
+postgres=# show databases;
+ERROR:  unrecognized configuration parameter "databases"
+postgres=# show DATABASES;
+ERROR:  unrecognized configuration parameter "databases"
+postgres=# USE college;
+ERROR:  syntax error at or near "USE"
+LINE 1: USE college;
+        ^
+postgres=# use college;
+ERROR:  syntax error at or near "use"
+LINE 1: use college;
+        ^
+postgres=# \1
+invalid command \1
+Try \? for help.
+postgres=# \l
+                                                List of databases
+   Name    |  Owner   | Encoding | Locale Provider | Collate | Ctype | Locale | ICU Rules |   Access privileges   
+-----------+----------+----------+-----------------+---------+-------+--------+-----------+-----------------------
+ Student   | postgres | UTF8     | libc            | C       | C     |        |           | 
+ college   | postgres | UTF8     | libc            | C       | C     |        |           | 
+ postgres  | postgres | UTF8     | libc            | C       | C     |        |           | 
+ template0 | postgres | UTF8     | libc            | C       | C     |        |           | =c/postgres          +
+           |          |          |                 |         |       |        |           | postgres=CTc/postgres
+ template1 | postgres | UTF8     | libc            | C       | C     |        |           | =c/postgres          +
+           |          |          |                 |         |       |        |           | postgres=CTc/postgres
+(5 rows)
+
+postgres=# \c college;
+You are now connected to database "college" as user "postgres".
+college=# \d employee;
+                                            Table "public.employee"
+    Column     |          Type          | Collation | Nullable |                    Default                    
+---------------+------------------------+-----------+----------+-----------------------------------------------
+ employee_id   | integer                |           | not null | nextval('employee_employee_id_seq'::regclass)
+ employee_name | character varying(200) |           |          | 
+ salary        | integer                |           |          | 
+ department_id | integer                |           |          | 
+Indexes:
+    "employee_pkey" PRIMARY KEY, btree (employee_id)
+Foreign-key constraints:
+    "employee_department_id_fkey" FOREIGN KEY (department_id) REFERENCES department(department_id)
+
+college=# \d employee
+                                            Table "public.employee"
+    Column     |          Type          | Collation | Nullable |                    Default                    
+---------------+------------------------+-----------+----------+-----------------------------------------------
+ employee_id   | integer                |           | not null | nextval('employee_employee_id_seq'::regclass)
+ employee_name | character varying(200) |           |          | 
+ salary        | integer                |           |          | 
+ department_id | integer                |           |          | 
+Indexes:
+    "employee_pkey" PRIMARY KEY, btree (employee_id)
+Foreign-key constraints:
+    "employee_department_id_fkey" FOREIGN KEY (department_id) REFERENCES department(department_id)
+
+college=# ==-
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
