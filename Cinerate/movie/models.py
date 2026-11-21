@@ -8,7 +8,7 @@ class movie(models.Model):
     description = models.TextField()
     release_date = models.DateField()
     genere = models.CharField(max_length=100)
-    psoter_image = models.ImageField(upload_to='posters/',blank=True,null=True)
+    poster_image = models.ImageField(upload_to='posters/',blank=True,null=True)
 
 
     def __str__(self):
